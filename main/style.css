@@ -1,0 +1,275 @@
+
+  /* Responsive: stack columns on mobile */
+  @media (max-width: 768px) {
+    .testimonials-container { flex-direction: column; height: auto; }
+    .column { height: auto; animation: none; }
+  }
+  
+
+
+
+              
+/* ABout P3 */
+.card {
+  margin: auto;
+  position: relative;
+  width: 600px;
+  height: 300px;
+  box-sizing: border-box;
+  background-color: #212121;
+  border: 6.5px solid #222;
+  border-radius: 10.4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 13px;
+  padding: 13px;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 13px 26px,
+          rgba(0, 0, 0, 0.23) 0px 7.8px 7.8px,
+          inset rgba(0, 0, 0, 0.19) 0px 13px 26px,
+          inset rgba(0, 0, 0, 0.23) 0px 7.8px 7.8px;
+  transition: all ease-in-out 0.3s;
+  overflow: hidden;
+}
+
+.card:hover {
+  box-shadow: rgba(193, 44, 223, 0.19) 0px 13px 26px,
+          rgba(193, 44, 223, 0.23) 0px 7.8px 7.8px,
+          inset rgba(0, 0, 0, 0.19) 0px 13px 26px,
+          inset rgba(0, 0, 0, 0.23) 0px 7.8px 7.8px;
+  border: 6.5px solid #b671d6;
+}
+
+.card-title {
+  margin: auto;
+  margin: 0;
+  font-size: 23.4px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-weight: 600;
+  color: #fff;
+  cursor: default;
+}
+
+.card-des {
+  margin: 0;
+  font-size: 15px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-weight: 600;
+  color: #fff;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  display: -webkit-box;
+  word-break: break-all;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  cursor: default;
+}
+
+.card-text {
+  position: absolute;
+  margin: 0;
+  font-size: 18.2px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-weight: 400;
+  color: #fff;
+  right: 26px;
+  bottom: 6.5px;
+  display: flex;
+  align-items: center;
+  gap: 3.9px;
+  opacity: 0;
+  transition: all ease-in-out 0.3s;
+  animation: textanimate 0.8s alternate infinite;
+  cursor: pointer;
+}
+
+.card:hover > .card-text {
+  opacity: 1;
+}
+
+@keyframes textanimate {
+  0% {
+    right: 26px;
+  }
+
+  100% {
+    right: 13px;
+  }
+}
+
+.arrow-icon {
+  font-size: 19.5px;
+  font-weight: 500;
+}
+
+
+/* JOin Us  */
+button {
+  margin: auto;
+  position: relative;
+  width: 11em;
+  height: 4em;
+  outline: none;
+  transition: 0.1s;
+  background-color: transparent;
+  border: none;
+  font-size: 13px;
+  font-weight: bold;
+  color: #ddebf0;
+}
+
+#clip {
+  --color: #2761c3;
+  position: absolute;
+  top: 0;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  border: 5px double var(--color);
+  box-shadow: inset 0px 0px 15px #195480;
+  -webkit-clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+}
+
+.arrow {
+  position: absolute;
+  transition: 0.2s;
+  background-color: #2761c3;
+  top: 35%;
+  width: 11%;
+  height: 30%;
+}
+
+#leftArrow {
+  left: -13.5%;
+  -webkit-clip-path: polygon(100% 0, 100% 100%, 0 50%);
+}
+
+#rightArrow {
+  -webkit-clip-path: polygon(100% 49%, 0 0, 0 100%);
+  left: 102%;
+}
+
+button:hover #rightArrow {
+  background-color: #27c39f;
+  left: -15%;
+  animation: 0.6s ease-in-out both infinite alternate rightArrow8;
+}
+
+button:hover #leftArrow {
+  background-color: #27c39f;
+  left: 103%;
+  animation: 0.6s ease-in-out both infinite alternate leftArrow8;
+}
+
+.corner {
+  position: absolute;
+  width: 4em;
+  height: 4em;
+  background-color: #2761c3;
+  box-shadow: inset 1px 1px 8px #2781c3;
+  transform: scale(1) rotate(45deg);
+  transition: 0.2s;
+}
+
+#rightTop {
+  top: -1.98em;
+  left: 91%;
+}
+
+#leftTop {
+  top: -1.96em;
+  left: -3.0em;
+}
+
+#leftBottom {
+  top: 2.10em;
+  left: -2.15em;
+}
+
+#rightBottom {
+  top: 45%;
+  left: 88%;
+}
+
+button:hover #leftTop {
+  animation: 0.1s ease-in-out 0.05s both changeColor8,
+  0.2s linear 0.4s both lightEffect8;
+}
+
+button:hover #rightTop {
+  animation: 0.1s ease-in-out 0.15s both changeColor8,
+  0.2s linear 0.4s both lightEffect8;
+}
+
+button:hover #rightBottom {
+  animation: 0.1s ease-in-out 0.25s both changeColor8,
+  0.2s linear 0.4s both lightEffect8;
+}
+
+button:hover #leftBottom {
+  animation: 0.1s ease-in-out 0.35s both changeColor8,
+  0.2s linear 0.4s both lightEffect8;
+}
+
+button:hover .corner {
+  transform: scale(1.25) rotate(45deg);
+}
+
+button:hover #clip {
+  animation: 0.2s ease-in-out 0.55s both greenLight8;
+  --color: #27c39f;
+}
+
+@keyframes changeColor8 {
+  from {
+    background-color: #2781c3;
+  }
+
+  to {
+    background-color: #27c39f;
+  }
+}
+
+@keyframes lightEffect8 {
+  from {
+    box-shadow: 1px 1px 5px #27c39f;
+  }
+
+  to {
+    box-shadow: 0 0 2px #27c39f;
+  }
+}
+
+@keyframes greenLight8 {
+  from {
+  }
+
+  to {
+    box-shadow: inset 0px 0px 32px #27c39f;
+  }
+}
+
+@keyframes leftArrow8 {
+  from {
+    transform: translate(0px);
+  }
+
+  to {
+    transform: translateX(10px);
+  }
+}
+
+@keyframes rightArrow8 {
+  from {
+    transform: translate(0px);
+  }
+
+  to {
+    transform: translateX(-10px);
+  }
+}
+
+

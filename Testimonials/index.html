@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Testimonials</title>
+    <style>
+        :root {
+            --animation-duration-base: 55s; /* Base speed */
+            --animation-duration-side: calc(var(--animation-duration-base) / 0.75); /* Slower for sides */
+            --animation-duration-middle: calc(var(--animation-duration-base) / 1.25); /* Faster for middle */
+            --min-box-height: 120px; /* Min box height */
+            --max-box-height: 180px; /* Max box height */
+            --box-margin: 15px;
+            --column-gap: 25px; /* Increased spacing */
+            --hover-scale: 1.05;
+            --push-amount: 30px;
+            --column-transition-speed: 0.5s;
+            --image-path: 'bg-compress6edf.jpg'; /* Relative path */
+
+            /* Column widths */
+            --column-width: 30%;
+            
+            /* Mobile breakpoints */
+            --mobile-breakpoint: 768px;
+            /* Scaled Sizes (1.25x) */
+            --min-box-height: 150px; /* 120 * 1.25 */
+            --max-box-height: 225px; /* 180 * 1.25 */
+            --icon-size: 20px; /* 16 * 1.25 */
+            --box-padding: 18px; /* Increased padding */
+
+            /* Light Mode Colors */
+            --bg-color: #f0f2f5;
+            --box-bg-color: #ffffff;
+            --text-color: #586069;
+            --author-color: #24292e;
+            --border-color: #e1e4e8;
+            --shadow-color: rgba(0,0,0,0.05);
+            --box-radius: 12px; /* Increased radius */
+             --hover-text-color: #ffffff; /* White text on hover */
+             --hover-author-color: #f0f0f0;
+             --hover-overlay-color: rgba(0, 0, 0, 0.6); /* Overlay for text readability */
+        }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow: hidden; /* Prevent all scroll */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: calc(100vh - 60px);
+            position: relative;
+            cursor: default;
+        }
+
+        .testimonials-container {
+            display: flex;
+            gap: var(--column-gap);
+            width: 100%;
+            max-width: 1800px;
+            height: 85vh; /* Adjust height to clip bottom ~15% */
+            overflow: hidden;
+            position: relative;
+            perspective: 1000px;
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 85%, transparent 100%); /* Adjust fade */
+            mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 85%, transparent 100%);
+        }
+
+        .column {
+            /* flex: 1; Original */
+            flex: 0 1 18%; /* Allow shrinking, aim for narrower base width */
+            display: flex;
+            flex-direction: column;
+             /* Height needs careful calculation or acceptance of minor jump with random heights */
+             /* Setting a very large fixed height ensures content overflows for animation */
+            height: 3000px; /* Large fixed height for overflow */
+            will-change: transform;
+            animation-timing-function: linear; /* Changed to linear for constant speed */
+            animation-iteration-count: infinite;
+            min-width: 150px; /* Prevent columns becoming too narrow */
+            transition: transform var(--column-transition-speed) ease-in-out, opacity 0.5s ease-in-out; /* Add opacity transition */
+            position: relative; /* Needed for absolute positioning of boxes if we went that route */
+            animation-duration: var(--animation-duration-base); /* Default speed */
+            animation-play-state: running !important; /* Always running by default */
+        }
+
+        /* Side column styles */
+        .column:first-child,
+        .column:last-child {
+            opacity: 0.85; /* Slightly faded */
+            animation-duration: var(--animation-duration-side); /* Slower speed */
+            animation-play-state: running !important;
+        }
+
+        /* Middle column speed */
+        .column:nth-child(3) {
+            animation-duration: var(--animation-duration-middle); /* Faster speed */
+        }
+
+        /* Column Push Aside */
+        .column.is-pushed-left {
+            transform: translateX(calc(-1 * var(--push-amount)));
+        }
+        .column.is-pushed-right {
+             transform: translateX(var(--push-amount));
+        }
+
+        /* Alternating animations */
+        .column:nth-child(odd) {
+            animation-name: moveUp;
+            animation-duration: var(--animation-duration-base);
+        }
+
+        .column:nth-child(even) {
+            animation-name: moveDown;
+            animation-duration: var(--animation-duration-base);
+        }
+
+        .testimonial-box {
+            flex-shrink: 0;
+            min-height: var(--min-box-height);
+            max-height: var(--max-box-height);
+            width: 100%;
+            background-color: var(--box-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--box-radius);
+            padding: var(--box-padding);
+            margin-bottom: var(--box-margin);
+            box-shadow: 0 4px 8px var(--shadow-color);
+            transition: all 0.4s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            box-sizing: border-box;
+            transform-origin: center center;
+            z-index: 1;
+        }
+
+        .testimonial-box p,
+        .testimonial-box strong {
+            position: relative; /* Ensure text is above potential overlay */
+            z-index: 2;
+            transition: color 0.4s ease;
+        }
+
+        .testimonial-box p {
+            margin: 0;
+            font-size: 0.9em;
+            color: var(--text-color);
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+         .testimonial-box strong {
+             display: block;
+             margin-top: 10px;
+             font-size: 0.8em;
+             color: var(--author-color);
+             text-align: right;
+             display: flex; /* Align icon and text */
+             align-items: center; /* Vertically center icon and text */
+             justify-content: flex-end; /* Keep content to the right */
+         }
+
+        .author-icon {
+            width: var(--icon-size);
+            height: var(--icon-size);
+            margin-right: 5px;
+            border-radius: 50%; /* Make icons circular */
+            object-fit: cover; /* Ensure image covers the circle */
+        }
+
+        /* Hover overlay for text readability */
+        .testimonial-box::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: var(--hover-overlay-color);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+            border-radius: inherit;
+        }
+
+        /* Hover effects triggered by JS */
+        .column.pause-animation {
+            animation-play-state: paused !important;
+        }
+
+        .testimonial-box.is-hovered {
+            transform: scale(var(--hover-scale));
+            z-index: 100;
+            border-color: transparent;
+            background-image: url("bg-compress6edf.jpg");
+            max-height: none; /* Remove max-height constraint */
+            position: relative;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+        .testimonial-box.is-hovered::after { /* Show overlay on hover */
+             opacity: 1;
+        }
+        .testimonial-box.is-hovered p {
+             -webkit-line-clamp: unset; /* Remove line clamp on hover */
+             color: var(--hover-text-color);
+        }
+         .testimonial-box.is-hovered strong {
+             color: var(--hover-author-color);
+         }
+
+        /* Keyframes for movement (using half the large fixed height now) */
+        @keyframes moveUp {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(2px, -375px); } /* Adjust pixel values based on fixed height */
+            50% { transform: translate(0, -750px); }
+            75% { transform: translate(-2px, -1125px); }
+            100% { transform: translate(0, -1500px); }
+        }
+
+        @keyframes moveDown {
+             0% { transform: translate(0, -1500px); }
+            25% { transform: translate(-2px, -1125px); }
+            50% { transform: translate(0, -750px); }
+            75% { transform: translate(2px, -375px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        /* Keyframes for rainbow border animation - REMOVED */
+
+        /* Dark Mode Styles */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #0a0a0a; /* Even Darker background */
+                --box-bg-color: #181818; /* Even Darker box */
+                --text-color: #bdbdbd;
+                --author-color: #e0e0e0;
+                --border-color: #282828; /* Darker border */
+                --shadow-color: rgba(0,0,0,0.4);
+                --hover-text-color: #ffffff;
+                --hover-author-color: #f0f0f0;
+                --hover-overlay-color: rgba(0, 0, 0, 0.65); /* Darker overlay for contrast */
+            }
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            :root {
+                --column-width: 100%;
+                --min-box-height: 120px;
+                --max-box-height: 150px;
+                --box-margin: 0;
+                --column-gap: 20px;
+                --hover-scale: 1;
+                --push-amount: 0;
+                --mobile-card-width: 85vw;
+                --expanded-width: 60%;
+                --expanded-height: calc(60vh - 40px);
+            }
+
+            body {
+                padding: 0;
+                overflow-y: auto;
+                min-height: 100vh;
+                background: var(--bg-color);
+            }
+
+            .testimonials-container {
+                flex-direction: column;
+                height: 100vh;
+                width: 100vw;
+                gap: 30px;
+                padding: 15px 0;
+                overflow: visible;
+                mask-image: none;
+                -webkit-mask-image: none;
+            }
+
+            .column {
+                flex: 0 0 180px;
+                height: 180px;
+                min-height: auto;
+                margin: 0;
+                width: 100vw;
+                flex-direction: row;
+                overflow: hidden;
+                padding: 0;
+                transform: none !important;
+                display: flex;
+                align-items: center;
+            }
+
+            .testimonial-box {
+                flex: 0 0 var(--mobile-card-width);
+                height: 160px !important;
+                margin: 0;
+                transform: translateX(calc((100vw - var(--mobile-card-width)) / 2));
+                transition: all 0.3s ease;
+                background: var(--box-bg-color);
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                padding: 15px;
+                aspect-ratio: 16/9;
+            }
+
+            /* Mobile animations */
+            .column:nth-child(odd) {
+                animation: mobileSlideLeft 25s linear infinite;
+            }
+
+            .column:nth-child(even) {
+                animation: mobileSlideRight 25s linear infinite;
+            }
+
+            @keyframes mobileSlideLeft {
+                0% { transform: translateX(calc(var(--mobile-card-width) * 1.5)); }
+                100% { transform: translateX(calc(var(--mobile-card-width) * -1.5)); }
+            }
+
+            @keyframes mobileSlideRight {
+                0% { transform: translateX(calc(var(--mobile-card-width) * -1.5)); }
+                100% { transform: translateX(calc(var(--mobile-card-width) * 1.5)); }
+            }
+
+            /* Mobile hover/touch effects */
+            .testimonial-box.is-hovered {
+                position: fixed;
+                left: 50%;
+                top: 50%;
+                width: var(--expanded-width);
+                height: var(--expanded-height) !important;
+                transform: translate(-50%, -50%);
+                z-index: 1000;
+                padding: 20px;
+                margin: 0;
+                overflow-y: auto;
+                background-color: var(--box-bg-color);
+                box-shadow: 0 0 40px rgba(0,0,0,0.5);
+                border-radius: var(--box-radius);
+                display: flex;
+                flex-direction: column;
+                aspect-ratio: auto;
+                min-width: 280px;
+                max-width: 600px;
+            }
+
+            .testimonial-box.is-hovered p {
+                font-size: 1.1em;
+                line-height: 1.6;
+                margin-bottom: 20px;
+                color: var(--text-color);
+                flex: 1;
+                overflow-y: auto;
+            }
+
+            .testimonial-box.is-hovered strong {
+                margin-top: auto;
+                padding-top: 15px;
+                font-size: 1em;
+                border-top: 1px solid var(--border-color);
+            }
+
+            /* Overlay for expanded card */
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.8);
+                z-index: 999;
+                backdrop-filter: blur(5px);
+            }
+
+            .overlay.active {
+                display: block;
+            }
+
+            /* Adjust text for mobile */
+            .testimonial-box p {
+                font-size: 0.95em;
+                line-height: 1.4;
+                margin-bottom: 10px;
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                flex: 1;
+            }
+
+            .testimonial-box strong {
+                margin-top: auto;
+            }
+
+            /* Add close button for expanded view */
+            .close-button {
+                display: none;
+                position: fixed;
+                top: 15px;
+                right: 15px;
+                width: 40px;
+                height: 40px;
+                background: rgba(0,0,0,0.3);
+                border-radius: 50%;
+                z-index: 1001;
+                cursor: pointer;
+                border: none;
+                color: white;
+                font-size: 24px;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .close-button:active {
+                background: rgba(0,0,0,0.5);
+            }
+
+            .testimonial-box.is-hovered + .close-button {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 480px) {
+            :root {
+                --mobile-card-width: 90vw;
+                --expanded-width: 90%;
+                --expanded-height: calc(70vh - 40px);
+            }
+
+            .testimonial-box {
+                padding: 12px;
+            }
+
+            .testimonial-box.is-hovered {
+                min-width: 250px;
+                padding: 15px;
+            }
+
+            .close-button {
+                top: 10px;
+                right: 10px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="testimonials-container" id="testimonialsContainer">
+        <!-- Columns will be generated by JS -->
+    </div>
+
+    <script>
+        const container = document.getElementById('testimonialsContainer');
+        const numColumns = 5;
+        const boxesPerColumnBase = 5; // Number of unique boxes
+        const totalBoxesNeeded = numColumns * boxesPerColumnBase;
+
+        const sampleTestimonials =[
+  {
+    "text": "Native Nexus transformed my approach to mobile development. The 6-day immersive React Native workshop took me from basic concepts to building a complete AI-powered expense management app with Google Gemini integration. DevLabs' mission of empowering developers through hands-on experience truly came to life!",
+    "author": "Arjun Mehta",
+    "gender": "male"
+  },
+  {
+    "text": "Coming from a non-CS background was intimidating, but DevLabs made Flutter accessible for me. Their collaborative learning environment helped me build confidence. The React Native & Expo techniques I learned during Native Nexus let me create cross-platform apps with beautiful UI and animations that I never thought possible!",
+    "author": "Priya Sharma",
+    "gender": "female"
+  },
+  {
+    "text": "The AWS certification track at DevLabs gave me practical cloud experience beyond theory. Being part of the 100 curated developers for Native Nexus was a game-changer—implementing NodeJS and MongoDB backend-as-a-service taught me real-world scalability principles I now use daily.",
+    "author": "Vikram Choudhury",
+    "gender": "male"
+  },
+  {
+    "text": "Never thought I'd get into machine learning until DevLabs' PyTorch study group. Working with TensorFlow and seeing how it integrated with the AI-powered features in the Native Nexus project opened my eyes to practical applications of ML. Now I'm contributing to an open-source computer vision project!",
+    "author": "Ananya Desai",
+    "gender": "female"
+  },
+  {
+    "text": "Building IoT prototypes with DevLabs' Raspberry Pi hackathons completely changed my career path. Connecting sensor networks to the cloud infrastructure we learned about in their workshops turned my weekend hobby into a smart agriculture startup. DevLabs truly lives up to its mission of empowering developers to shape the future.",
+    "author": "Rahul Joshi",
+    "gender": "male"
+  },
+  {
+    "text": "The Node.js masterclass series prepared me perfectly for Native Nexus, where we implemented a complete backend for real-time group expense splitting. From callback hell to clean async/await patterns, DevLabs helped me write production-ready code that integrated seamlessly with MongoDB.",
+    "author": "Nandini Patel",
+    "gender": "female"
+  },
+  {
+    "text": "Transitioning from QA to DevOps seemed impossible until I joined DevLabs' Docker and Terraform workshops. Their focus on Cloud & DevOps with AWS, Azure, and GCP gave me practical skills I immediately added to my resume. The collaborative learning environment they foster is exactly what tech education should be.",
+    "author": "Karthik Iyer",
+    "gender": "male"
+  },
+  {
+    "text": "The Google Gemini integration challenge during Native Nexus pushed me beyond my comfort zone. Implementing NLP-powered text-to-expense parsing in just 12+ hours of focused development taught me more about AI applications than an entire semester of theory. DevLabs' approach to innovation through immersive experiences works!",
+    "author": "Shreya Narayan",
+    "gender": "female"
+  },
+  {
+    "text": "As a self-taught programmer, React Native always intimidated me. Native Nexus' incremental approach made it digestible. Building a complete Splitwise clone with AI capabilities alongside 99 other developers created a motivating environment where we constantly learned from each other.",
+    "author": "Aditya Singhania",
+    "gender": "male"
+  },
+  {
+    "text": "The Vue ecosystem seemed overwhelming until I participated in DevLabs' component architecture workshop. This foundation prepared me for Native Nexus where we built custom cards and responsive layouts for our expense management app. Their methodology of breaking down complex apps into manageable pieces transformed my approach.",
+    "author": "Kavita Reddy",
+    "gender": "female"
+  },
+  {
+    "text": "DevLabs' Arduino weekend workshops connected perfectly with their IoT & Electronics focus area. The mentors patiently worked with me through countless sensor network configurations. The physical-digital integration principles I learned apply beautifully to the smart home solutions I'm now developing.",
+    "author": "Siddharth Verma",
+    "gender": "male"
+  },
+  {
+    "text": "The GCP certification study group at DevLabs aligned perfectly with their Cloud & DevOps focus area. We tackled complex scenarios together, and I went from cloud novice to deploying microservices architecture in 4 months. This foundation was essential during Native Nexus when implementing backend services.",
+    "author": "Meera Krishnan",
+    "gender": "female"
+  },
+  {
+    "text": "Honestly didn't expect much from another 'coding community,' but DevLabs proved me wrong. Their Kotlin track provided structure while allowing creative freedom. The cross-platform principles I learned transferred perfectly to Native Nexus, where we built an AI-powered expense management app that now has 10k+ downloads!",
+    "author": "Rohan Malhotra",
+    "gender": "male"
+  },
+  {
+    "text": "The scikit-learn data analysis workshops completely changed my approach to problem-solving. When we integrated Google Gemini for NLP during Native Nexus, everything clicked! DevLabs' mission of connecting theory with real-world applications has transformed how I implement ML techniques in my research.",
+    "author": "Divya Nair",
+    "gender": "female"
+  },
+  {
+    "text": "Terraform seemed like magic until DevLabs demystified infrastructure as code. Their focus on Cloud & DevOps across AWS, Azure, and GCP gave me a comprehensive foundation. During Native Nexus, this knowledge helped our team create a scalable backend for the expense management application.",
+    "author": "Nikhil Agarwal",
+    "gender": "male"
+  },
+  {
+    "text": "Struggling with imposter syndrome as a woman in tech, DevLabs' female-led Angular workshop was exactly what I needed. This confidence allowed me to thrive during Native Nexus, where I led the UI animations team for our expense management app. The supportive environment helped me build both technical skills and leadership abilities.",
+    "author": "Tanvi Kapoor",
+    "gender": "female"
+  },
+  {
+    "text": "The sensor networks lab at DevLabs gave me hands-on experience with IoT deployments. Working with Arduino and Raspberry Pi to solve connectivity issues taught me debugging skills I later applied during Native Nexus when integrating Google Gemini for smart chatbots in our expense app.",
+    "author": "Arnav Bose",
+    "gender": "male"
+  },
+  {
+    "text": "Swift development felt unapproachable until DevLabs' iOS hackathon weekend. The mentors broke down complex patterns, which prepared me for Native Nexus where we had to build cross-platform apps with beautiful UI and custom cards. Now I'm freelancing as a mobile developer while finishing my degree!",
+    "author": "Roshni Gupta",
+    "gender": "female"
+  },
+  {
+    "text": "The Azure DevOps pipeline automation challenge in DevLabs' Cloud & DevOps track completely changed my understanding of CI/CD. This knowledge was invaluable during Native Nexus when we needed to create a production-ready app in just 12+ hours of development time.",
+    "author": "Vivek Mathur",
+    "gender": "male"
+  },
+  {
+    "text": "Jumping into DevLabs' advanced React patterns workshop prepared me perfectly for Native Nexus. Working with 99 other developers to build a complete Splitwise clone with AI capabilities taught me more about component composition and state management than any tutorial could.",
+    "author": "Pooja Thakur",
+    "gender": "female"
+  },
+  {
+    "text": "DevLabs' computer vision challenge using PyTorch pushed me to learn at lightning speed. This foundation in the Machine Learning focus area helped me during Native Nexus when implementing Google Gemini for NLP-powered text-to-expense parsing. The mentorship was personalized and genuinely invested in shaping my future.",
+    "author": "Sameer Malik",
+    "gender": "male"
+  },
+  {
+    "text": "Microservices architecture made sense conceptually but implementing it seemed daunting until DevLabs' Node.js workshops. During Native Nexus, I applied these principles to create a backend-as-a-service for instant scalability and real-time group expense splitting. Their practical approach fundamentally changed how I architect systems.",
+    "author": "Neha Chauhan",
+    "gender": "female"
+  },
+  {
+    "text": "The Flutter UI challenge at DevLabs prepared me for the intensive UI work during Native Nexus. Creating custom cards and animations for our AI-powered expense management app pushed me to think beyond basic design. I'm now leading mobile development at my startup thanks to these hands-on experiences.",
+    "author": "Kunal Sharma",
+    "gender": "male"
+  },
+  {
+    "text": "Coming from a design background, I never thought I'd understand serverless architecture. DevLabs' AWS Lambda workshops prepared me for Native Nexus where we implemented NodeJS backend services. The 6-day immersive experience was perfectly paced while still being challenging!",
+    "author": "Aisha Patel",
+    "gender": "female"
+  },
+  {
+    "text": "DevLabs' Raspberry Pi robotics track rekindled my passion for hardware. Their IoT & Electronics focus area gave me practical skills in sensor networks that complemented what we learned during Native Nexus. The hands-on approach to teaching embedded systems made theoretical concepts concrete.",
+    "author": "Vijay Sundaram",
+    "gender": "male"
+  },
+  {
+    "text": "The data visualization masterclass with D3.js and TensorFlow at DevLabs prepared me for implementing AI features during Native Nexus. Working with Google Gemini to create smart chatbots for debt resolution showed me how ML can improve everyday applications. I went from struggling with basic charts to building interactive AI interfaces in weeks!",
+    "author": "Lakshmi Ranganathan",
+    "gender": "female"
+  },
+  {
+    "text": "Docker containerization felt like rocket science until DevLabs broke it down in their Cloud & DevOps track. This knowledge was crucial during Native Nexus when deploying our production-ready Splitwise clone. Their approach of building increasingly complex environments helped concepts stick.",
+    "author": "Ritesh Kumar",
+    "gender": "male"
+  },
+  {
+    "text": "The progressive web app challenge at DevLabs prepared me for the responsive layouts we implemented during Native Nexus. Being part of the 100 curated developers who built a complete expense management app with React Native & Expo in just 6 days was transformative. Their Web Development focus truly shapes the future of tech education.",
+    "author": "Jyoti Verma",
+    "gender": "female"
+  },
+  {
+    "text": "Finding DevLabs in my second year completely redirected my career path. Their IoT workshops with Arduino and Raspberry Pi connected my electrical engineering background with modern programming. The collaborative innovation environment they foster aligned perfectly with their mission of empowering developers.",
+    "author": "Harish Tiwari",
+    "gender": "male"
+  },
+  {
+    "text": "Participating in Native Nexus and implementing Google Gemini for NLP made me think critically about AI ethics beyond just technical implementation. DevLabs' approach to technology as a social responsibility has influenced how I approach every project since. Their mission of shaping the future through innovation rings true in everything they do.",
+    "author": "Anjali Bhardwaj",
+    "gender": "female"
+  }
+        ];
+
+        // Ensure we have enough unique testimonials
+        while (sampleTestimonials.length < totalBoxesNeeded) {
+            const gender = sampleTestimonials.length % 2 === 0 ? 'male' : 'female'; // Alternate for placeholders
+            sampleTestimonials.push({ 
+                text: `Placeholder testimonial ${sampleTestimonials.length + 1}.`, 
+                author: `Author ${sampleTestimonials.length + 1}`, 
+                gender: gender 
+            });
+        }
+
+        let testimonialIndex = 0;
+        let columns = []; // Keep track of columns
+
+        // Function to get random height
+        function getRandomHeight() {
+            const minH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--min-box-height'));
+            const maxH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--max-box-height'));
+            return Math.floor(Math.random() * (maxH - minH + 1)) + minH;
+        }
+
+        for (let i = 0; i < numColumns; i++) {
+            const column = document.createElement('div');
+            column.classList.add('column');
+            columns.push(column); // Add column to array
+
+            const columnBoxesData = [];
+            for (let j = 0; j < boxesPerColumnBase; j++) {
+                 const testimonial = sampleTestimonials[testimonialIndex % sampleTestimonials.length];
+                 columnBoxesData.push(testimonial);
+                 testimonialIndex++;
+            }
+
+            // Duplicate the boxes within the column for seamless looping
+            const duplicatedBoxesData = [...columnBoxesData, ...columnBoxesData];
+
+            duplicatedBoxesData.forEach(testimonialData => {
+                const box = document.createElement('div');
+                box.classList.add('testimonial-box');
+                // Assign random height
+                box.style.height = `${getRandomHeight()}px`;
+
+                const iconSrc = testimonialData.gender === 'female' ? 'female.jpg' : 'man.png';
+                const iconAlt = testimonialData.gender === 'female' ? 'Female icon' : 'Male icon';
+
+                box.innerHTML = `
+                    <p>${testimonialData.text}</p>
+                    <strong>
+                        <img src="${iconSrc}" alt="${iconAlt}" class="author-icon">
+                        - ${testimonialData.author}
+                    </strong>`;
+
+                box.addEventListener('mouseover', () => {
+                    const parentColumn = box.closest('.column');
+                    const parentIndex = columns.indexOf(parentColumn);
+
+                    // Pause only the hovered column
+                    if (parentColumn) {
+                        parentColumn.classList.add('pause-animation');
+                        box.classList.add('is-hovered');
+
+                        // Push adjacent columns aside
+                        columns.forEach((col, index) => {
+                            if (index < parentIndex) {
+                                col.classList.add('is-pushed-left');
+                            } else if (index > parentIndex) {
+                                col.classList.add('is-pushed-right');
+                            }
+                        });
+                    }
+                });
+
+                box.addEventListener('mouseout', () => {
+                    const parentColumn = box.closest('.column');
+                    if (parentColumn) {
+                        // Resume animation
+                        parentColumn.classList.remove('pause-animation');
+                        box.classList.remove('is-hovered');
+
+                        // Reset pushed columns
+                        columns.forEach(col => {
+                            col.classList.remove('is-pushed-left', 'is-pushed-right');
+                        });
+                    }
+                });
+                column.appendChild(box);
+            });
+            container.appendChild(column);
+        }
+
+        // Add overlay div to body
+        const overlay = document.createElement('div');
+        overlay.classList.add('overlay');
+        document.body.appendChild(overlay);
+
+        // Add close button
+        const closeButton = document.createElement('button');
+        closeButton.classList.add('close-button');
+        closeButton.innerHTML = '×';
+        document.body.appendChild(closeButton);
+
+        // Update touch handlers
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let isSwiping = false;
+
+        function handleTouchStart(e) {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+            isSwiping = false;
+        }
+
+        function handleTouchMove(e) {
+            if (!touchStartX || !touchStartY) return;
+
+            const touchEndX = e.touches[0].clientX;
+            const touchEndY = e.touches[0].clientY;
+
+            const deltaX = touchStartX - touchEndX;
+            const deltaY = touchStartY - touchEndY;
+
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                isSwiping = true;
+            }
+        }
+
+        function handleTouchEnd(e) {
+            if (isSwiping) {
+                e.preventDefault();
+                return;
+            }
+
+            const box = e.target.closest('.testimonial-box');
+            if (box) {
+                const parentColumn = box.closest('.column');
+                if (parentColumn) {
+                    // Pause all animations
+                    document.querySelectorAll('.column').forEach(col => {
+                        col.style.animationPlayState = 'paused';
+                    });
+                    
+                    // Show expanded view
+                    box.classList.add('is-hovered');
+                    overlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                    closeButton.style.display = 'flex';
+                }
+            }
+        }
+
+        // Close expanded view
+        function closeExpandedView() {
+            document.querySelectorAll('.testimonial-box.is-hovered').forEach(box => {
+                box.classList.remove('is-hovered');
+            });
+            
+            // Resume all animations
+            document.querySelectorAll('.column').forEach(col => {
+                col.style.animationPlayState = 'running';
+            });
+            
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+            closeButton.style.display = 'none';
+        }
+
+        // Update close handlers
+        closeButton.addEventListener('click', closeExpandedView);
+        overlay.addEventListener('click', closeExpandedView);
+
+        // Add touch events to boxes
+        document.querySelectorAll('.testimonial-box').forEach(box => {
+            box.addEventListener('touchstart', handleTouchStart, { passive: true });
+            box.addEventListener('touchmove', handleTouchMove, { passive: true });
+            box.addEventListener('touchend', handleTouchEnd);
+        });
+
+    </script>
+
+</body>
+</html>

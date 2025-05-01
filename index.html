@@ -1,0 +1,39 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DevLabs</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Main Terminal -->
+  <div class="terminal-container">
+    <pre id="terminal-text"></pre>
+    <span class="cursor" id="cursor">█</span>
+  </div>
+
+  <!-- Pop-up -->
+  <div id="popup" class="popup hidden">
+    <div class="popup-window">
+      <pre id="popup-text"></pre>
+    </div>
+  </div>
+
+  <!-- Logo -->
+  <div id="devlabs-logo" class="hidden">
+    <h1>DevLabs</h1>
+  </div>
+
+  <!-- Launch Button -->
+  <a href="main/index.html" id="launchBtn" class="launch-btn hidden">
+    To Launch
+    <br>
+    [Click]
+  </a>
+
+  <script src="script.js"></script>
+</body>
+</html>

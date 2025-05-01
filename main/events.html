@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events | DevLabs</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../menu/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <link rel="stylesheet" href="join-button.css"> -->
+     <!-- Add Swiper CSS for Gallery -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <style>
+         body {
+            background-color: #0C0C0C;
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        /* Reuse menu styles from index.html */
+        .menu { position: fixed; top: 20px; right: 20px; left: auto; bottom: auto; width: 60px; height: 60px; margin: 0; z-index: 100; }
+        .menu-item, .menu-open-button { width: 60px; height: 60px; line-height: 60px; margin-left: -30px; font-size: 20px; }
+        .menu-open:checked ~ .menu-item:nth-child(3) { transform: translate3d(-75px, 0px, 0) rotate(0deg); transition-duration: 180ms; }
+        .menu-open:checked ~ .menu-item:nth-child(4) { transform: translate3d(-55px, 55px, 0) rotate(0deg); transition-duration: 280ms; }
+        .menu-open:checked ~ .menu-item:nth-child(5) { transform: translate3d(0px, 75px, 0) rotate(0deg); transition-duration: 380ms; }
+        .menu-open:checked ~ .menu-item:nth-child(n+6) { transform: scale(0.4); }
+
+        section { padding: 6rem 1rem 2rem 1rem; }
+        .content-section { background-color: rgba(255, 255, 255, 0.05); padding: 2rem; border-radius: 8px; margin-bottom: 2rem; }
+        h2 { font-size: 2.5rem; font-weight: 600; margin-bottom: 1.5rem; text-align: center; }
+        h3 { font-size: 1.8rem; font-weight: 600; margin-bottom: 1rem; margin-top: 2rem; color: #e5f403; }
+        .event-card { background-color: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; }
+        .event-card h4 { font-size: 1.5rem; color: #e5f403; margin-bottom: 0.5rem;}
+        .event-card p { margin-bottom: 0.5rem; }
+        .event-card .date { font-style: italic; color: #ccc; font-size: 0.9rem; }
+        .register-button { background-color: #e5f403; color: black; padding: 0.5rem 1rem; border-radius: 4px; font-weight: 600; text-decoration: none; display: inline-block; margin-top: 1rem; transition: background-color 0.3s ease; }
+        .register-button:hover { background-color: #cddc39; }
+        footer { background-color: rgba(0, 0, 0, 0.7); text-align: center; padding: 1.5rem; margin-top: 2rem; }
+
+        /* Swiper Gallery Styles */
+        .swiper-container { width: 100%; height: 400px; /* Adjust height as needed */ border-radius: 8px; }
+        .swiper-slide img { display: block; width: 100%; height: 100%; object-fit: cover; }
+        .swiper-button-next, .swiper-button-prev { color: #e5f403 !important; }
+        .swiper-pagination-bullet-active { background: #e5f403 !important; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Menu -->
+    <nav class="menu">
+        <input type="checkbox" href="#" class="menu-open" name="menu-open" id="menu-open">
+        <label class="menu-open-button" for="menu-open">
+         <span class="lines line-1"></span>
+         <span class="lines line-2"></span>
+         <span class="lines line-3"></span>
+        </label>
+        <a href="index.html" class="menu-item blue"> <i class="fa fa-home"></i></a>
+        <a href="about.html" class="menu-item green"> <i class="fa fa-info-circle"></i></a>
+        <a href="events.html" class="menu-item red"> <i class="fa fa-calendar"></i></a>
+        <a href="#" class="menu-item purple" style="pointer-events: none;"></a>
+        <a href="#" class="menu-item orange" style="pointer-events: none;"></a>
+        <a href="#" class="menu-item lightblue" style="pointer-events: none;"></a>
+     </nav>
+
+    <!-- Main Content -->
+    <section>
+        <div class="max-w-5xl mx-auto">
+            <h2>DevLabs Events</h2>
+
+            <!-- Upcoming Events -->
+            <div class="content-section">
+                <h3>Upcoming Events</h3>
+                <div class="event-card">
+                    <h4>Innovation Sprint Q3</h4>
+                    <p class="date">Date: October 15-17, 2025</p>
+                    <p>Join our quarterly 48-hour sprint where teams prototype solutions for real clients. Focus areas: Web & AI.</p>
+                    <a href="#" class="register-button">Register Now</a>
+                </div>
+                <div class="event-card">
+                    <h4>Cloud Fundamentals Workshop</h4>
+                    <p class="date">Date: November 5, 2025</p>
+                    <p>Learn the basics of cloud computing with hands-on labs using AWS and Azure.</p>
+                    <a href="#" class="register-button">Registration Opens Soon</a>
+                </div>
+                 <!-- Add more upcoming events as needed -->
+            </div>
+
+            <!-- Past Events -->
+            <div class="content-section">
+                <h3>Past Events Highlights</h3>
+                <div class="event-card">
+                    <h4>Signature Workshop: Native Nexus</h4>
+                    <p class="date">March 2025 @ MMMUT, Gorakhpur</p>
+                    <p>Over six days, 100 developers built a complete AI-powered expense management app using React Native, Node.js, MongoDB, and Google Gemini. Intensive hands-on coding resulted in a production-ready Splitwise clone with AI features.</p>
+                    <p><strong>Key Features Built:</strong> Custom UI, Real-time group expense splitting, AI expense parsing, AI chatbots for debt management.</p>
+                </div>
+                <div class="event-card">
+                    <h4>Summer Code Jam 2024</h4>
+                    <p class="date">July 2024</p>
+                    <p>A week-long coding challenge focused on building sustainable tech solutions. Teams competed for prizes and internship opportunities.</p>
+                </div>
+                 <!-- Add more past events -->
+
+                <h3 class="mt-8">Event Gallery</h3>
+                 <!-- Swiper -->
+                <div class="swiper-container mySwiper mt-4">
+                    <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="../ASSESTS/1.jpg" alt="Event Photo 1"></div>
+                    <div class="swiper-slide"><img src="../ASSESTS/2.jpg" alt="Event Photo 2"></div>
+                    <div class="swiper-slide"><img src="../ASSESTS/3.jpg" alt="Event Photo 3"></div>
+                    <div class="swiper-slide"><img src="../ASSESTS/4.jpg" alt="Event Photo 4"></div>
+                    <div class="swiper-slide"><img src="../ASSESTS/5.jpg" alt="Event Photo 5"></div>
+                    <!-- Add more images up to 9.jpg -->
+                     <div class="swiper-slide"><img src="../ASSESTS/6.jpg" alt="Event Photo 6"></div>
+                     <div class="swiper-slide"><img src="../ASSESTS/7.jpg" alt="Event Photo 7"></div>
+                     <div class="swiper-slide"><img src="../ASSESTS/8.jpg" alt="Event Photo 8"></div>
+                     <div class="swiper-slide"><img src="../ASSESTS/9.jpg" alt="Event Photo 9"></div>
+                     <!-- Assuming to9.jpg is the 9th image -->
+
+                    </div>
+                    <!-- Add Pagination -->
+                    <div class="swiper-pagination"></div>
+                    <!-- Add Navigation -->
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2025 DevLabs. All rights reserved.</p>
+    </footer>
+
+    <!-- Join Button -->
+    <div class="join-button-container">
+      <a href="https://chat.whatsapp.com/DevLabsCommunity" target="_blank" rel="noopener noreferrer">
+        <button class="button">
+          <div class="bg"></div>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 342 208" height="208" width="342" class="splash">
+            <path stroke-linecap="round" stroke-width="3" d="M54.1054 99.7837C54.1054 99.7837 40.0984 90.7874 26.6893 97.6362C13.2802 104.485 1.5 97.6362 1.5 97.6362"></path>
+            <path stroke-linecap="round" stroke-width="3" d="M285.273 99.7841C285.273 99.7841 299.28 90.7879 312.689 97.6367C326.098 104.486 340.105 95.4893 340.105 95.4893"></path>
+            <path stroke-linecap="round" stroke-width="3" stroke-opacity="0.3" d="M281.133 64.9917C281.133 64.9917 287.96 49.8089 302.934 48.2295C317.908 46.6501 319.712 36.5272 319.712 36.5272"></path>
+            <path stroke-linecap="round" stroke-width="3" stroke-opacity="0.3" d="M281.133 138.984C281.133 138.984 287.96 154.167 302.934 155.746C317.908 157.326 319.712 167.449 319.712 167.449"></path>
+            <path stroke-linecap="round" stroke-width="3" d="M230.578 57.4476C230.578 57.4476 225.785 41.5051 236.061 30.4998C246.337 19.4945 244.686 12.9998 244.686 12.9998"></path>
+            <path stroke-linecap="round" stroke-width="3" d="M230.578 150.528C230.578 150.528 225.785 166.471 236.061 177.476C246.337 188.481 244.686 194.976 244.686 194.976"></path>
+            <path stroke-linecap="round" stroke-width="3" stroke-opacity="0.3" d="M170.392 57.0278C170.392 57.0278 173.89 42.1322 169.571 29.54C165.252 16.9478 168.751 2.05227 168.751 2.05227"></path>
+            <path stroke-linecap="round" stroke-width="3" stroke-opacity="0.3" d="M170.392 150.948C170.392 150.948 173.89 165.844 169.571 178.436C165.252 191.028 168.751 205.924 168.751 205.924"></path>
+            <path stroke-linecap="round" stroke-width="3" d="M112.609 57.4476C112.609 57.4476 117.401 41.5051 107.125 30.4998C96.8492 19.4945 98.5 12.9998 98.5 12.9998"></path>
+            <path stroke-linecap="round" stroke-width="3" d="M112.609 150.528C112.609 150.528 117.401 166.471 107.125 177.476C96.8492 188.481 98.5 194.976 98.5 194.976"></path>
+            <path stroke-linecap="round" stroke-width="3" stroke-opacity="0.3" d="M62.2941 64.9917C62.2941 64.9917 55.4671 49.8089 40.4932 48.2295C25.5194 46.6501 23.7159 36.5272 23.7159 36.5272"></path>
+            <path stroke-linecap="round" stroke-width="3" stroke-opacity="0.3" d="M62.2941 145.984C62.2941 145.984 55.4671 161.167 40.4932 162.746C25.5194 164.326 23.7159 174.449 23.7159 174.449"></path>
+          </svg>
+          <div class="wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 221 42" height="42" width="221" class="path">
+              <path stroke-linecap="round" stroke-width="3" d="M182.674 2H203C211.837 2 219 9.16344 219 18V24C219 32.8366 211.837 40 203 40H18C9.16345 40 2 32.8366 2 24V18C2 9.16344 9.16344 2 18 2H47.8855"></path>
+            </svg>
+            <div class="outline"></div>
+            <div class="content">
+              <span class="char state-1">
+                <span data-label="J" style="--i: 1">J</span>
+                <span data-label="o" style="--i: 2">o</span>
+                <span data-label="i" style="--i: 3">i</span>
+                <span data-label="n" style="--i: 4">n</span>
+                <span data-label="T" style="--i: 5">T</span>
+                <span data-label="o" style="--i: 6">o</span>
+                <span data-label="d" style="--i: 7">d</span>
+                <span data-label="a" style="--i: 8">a</span>
+                <span data-label="y" style="--i: 9">y</span>
+              </span>
+              <div class="icon">
+                <div></div>
+              </div>
+              <span class="char state-2">
+                <span data-label="J" style="--i: 1">J</span>
+                <span data-label="o" style="--i: 2">o</span>
+                <span data-label="i" style="--i: 3">i</span>
+                <span data-label="n" style="--i: 4">n</span>
+                <span data-label="N" style="--i: 5">N</span>
+                <span data-label="o" style="--i: 6">o</span>
+                <span data-label="w" style="--i: 7">w</span>
+              </span>
+            </div>
+          </div>
+        </button>
+      </a>
+    </div>
+
+    <!-- Swiper JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+      var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        loop: true,
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+         autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+        },
+      });
+    </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+/* style.css */
+/* — Helpers — */
+.hidden { display: none; }
+
+/* — Body & Terminal — */
+body {
+  margin: 0;
+  background: #0C0C0C;
+  font-family: Consolas, monospace;
+  overflow: hidden;
+}
+.terminal-container {
+  background: #000014;
+  color: #00ff00;
+  height: 100vh;
+  padding: 2rem;
+  box-sizing: border-box;
+  font-size: 1rem;
+  line-height: 1.4;
+  text-shadow: 0 0 5px #00ff00;
+  position: relative;
+}
+#terminal-text {
+  white-space: pre-wrap;
+  overflow-y: auto;
+  height: 100%;
+}
+.cursor {
+  position: absolute;
+  bottom: 2rem; left: 2rem;
+  color: #00ff00;
+  font-weight: bold;
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50%     { opacity: 0; }
+}
+
+/* — Pop-up — */
+.popup {
+  position: fixed;
+  top:50%; left:50%;
+  transform: translate(-50%, -50%);
+  background: #000014;
+  color: #00ff00;
+  border-radius: 8px;
+  box-shadow: 0 0 15px #00ff00;
+  z-index: 1000;
+}
+.popup-window {
+  padding: 20px;
+  max-width: 400px;
+  font-family: "Courier New", monospace;
+  font-size: 1rem;
+  text-shadow: 0 0 5px #00ff00;
+}
+
+/* — Logo Fade-In — */
+#devlabs-logo {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000014;
+  color: #fff;
+  font-size: 3rem;
+  text-shadow: 0 0 10px #00ffff;
+  animation: fadeIn 1s ease-in-out forwards;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* — Launch Button — */
+.launch-btn {
+  position: fixed;
+  bottom: 20px; right: 20px;
+  padding: 12px 24px;
+  border: 2px solid #00ff00;
+  background: transparent;      /* fully transparent */
+  color: #00ff00;
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0,255,0,0.3);
+  transition: all 1s ease;
+  z-index: 1000;
+}
+
+/* — Move & Enlarge to cover logo — */
+.launch-btn.move-center-full {
+  /* center */
+  top: 50%; left: 50%;
+  bottom: auto; right: auto;
+  transform: translate(-50%, -50%) scale(3);
+  /* keep border color but background transparent */
+  background: black;
+  font-size: 1rem;
+  padding: 12px 24px;
+  box-shadow: none;
+}

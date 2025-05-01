@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%; /* or height: 100vh; */
+            width: 100%; /* or width: 100vw; */
+        }
+        .robo {
+            height: 100%;
+            width: 100%;
+            /*position: fixed;*/
+            position-anchor: fixed; /* for modern browsers */
+            background-color: rgb(119, 128, 131); /* for visual representation */
+            z-index: -1; /* to place it behind the other content */
+            border: none;
+        }
+        .full {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3;
+            border: none;
+
+        }
+        </style>
+
+
+
+
+
+
+
+</head>
+<body srtyle="background-color: black;width: 100%;height: 100vh;margin: 0;">
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js" async></script>
+    <spline-viewer url="https://prod.spline.design/lMLPpEyWoFB7hyGj/scene.splinecode"><img src="data:image/png;base64,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" alt="Spline preview" style="width: 100%; height: 100%;"/></spline-viewer>
+    <script src="xyz.jsx"></script>
+    <div class="full">
+        <video width="320" height="240" autoplay muted loop class="full">
+            <source src="C:\Users\vinod\Coding\Projects\DevLabs\ASSESTS\logo.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+          </video>
+    </div
+
+</body>
+</html>

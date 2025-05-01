@@ -1,0 +1,97 @@
+/* Base Styles */
+body {
+  margin: 0;
+  padding: 0;
+  background: #000;
+  color: #00ff00;
+  font-family: 'Courier New', monospace;
+  overflow: hidden;
+  height: 100vh;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+/* Terminal Styles */
+.terminal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.9);
+  overflow-y: auto;
+}
+
+#terminal-text {
+  white-space: pre-wrap;
+  line-height: 1.5;
+  text-shadow: 0 0 5px #00ff00;
+}
+
+.cursor {
+  display: inline-block;
+  width: 10px;
+  height: 20px;
+  background: #00ff00;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Launch Button Styles */
+.launch-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 15px 30px;
+  background: transparent;
+  border: 2px solid #00ff00;
+  color: #00ff00;
+  font-family: 'Courier New', monospace;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+  z-index: 1000;
+  transform-origin: center;
+}
+
+.launch-btn:hover {
+  background: rgba(0, 255, 0, 0.1);
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+}
+
+/* Button Animation */
+.launch-btn.animate-button {
+  position: fixed;
+  bottom: 50%;
+  right: 50%;
+  transform: translate(50%, 50%) scale(1.5);
+  font-size: 24px;
+  padding: 20px 40px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+  }
+}

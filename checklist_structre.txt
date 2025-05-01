@@ -1,0 +1,191 @@
+DevLabs Website Structure
+
+
+1. Home Page (Landing Page)
+Header:
+● Logo (DevLabs)
+● Navigation Menu (Home | About | Events | Domains | Contact)
+Hero Section:
+● Catchy tagline about DevLabs (e.g., "Empowering Innovators, Building the Future").
+● Background image or illustration related to tech development.
+● "Join Us" CTA button (leading to the About section or a signup form).
+About DevLabs (Short Overview):
+● A brief introduction about the community and its mission.
+● Mention of the domains covered (Web Dev, Mobile, ML/AI, Drone/IoT).
+Quick Links / Highlights:
+● Recent Events
+● Community Stats (Number of Members, Projects, etc.)
+● Testimonials (Optional)
+Footer:
+● Social Media Links
+● Copyright Information
+
+
+
+
+2. About Page
+Detailed Overview of DevLabs
+● History and Purpose
+● Vision & Mission
+Domains We Cover:
+● Web Development
+● Mobile App Development
+● Machine Learning & AI
+● Drone & IoT Systems
+Core Team:
+● Details about the founding members and key organizers
+Community Members:
+● Feature some active members with testimonials
+How to Join Us:
+● Membership benefits
+● Steps to become a member
+Contact Information:
+● Contact Form: Name, Email, Message
+● Social Media Links
+● Location (if required)
+● Email & Other Contact Info
+
+
+
+
+
+
+
+
+3. Events Page
+Upcoming Events:
+● Event Name, Date, Description, Registration Link
+Past Events:
+● Event Highlights, Photos, and Achievements
+Workshops & Hackathons:
+● List of tech-related events organized by DevLabs
+Additional Features
+Gallery Section ( Images from events, projects, and meetups)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+index.html<!-- ========== Start Section ========== -->
+ Preloader animation (DotLottie)
+
+ Persistent Spline background scene
+
+ Landing page / hero animation
+
+ Logo placement
+
+ Menu button (experimental trigger)
+
+ Navigation bar (Home | About | Events | Domains | Contact)
+
+ Hero tagline (“Empowering Innovators…”)
+
+ “Join Us” CTA button
+
+ Brief About preview
+
+ Community stats/highlights
+
+ Recent events carousel
+
+ Footer (social links & copyright)
+<!-- ========== End Section ========== -->
+
+
+
+about.html<!-- ========== Start Section ========== -->
+ Logo & navigation bar
+
+ Page banner / intro section
+
+ History & Purpose section
+
+ Vision & Mission section
+
+ “Domains We Cover” overview
+
+ Core Team profiles
+
+ Community member testimonials
+
+ “How to Join” steps
+
+ Footer (social links & copyright)
+ <!-- ========== End Section ========== -->
+
+
+
+events.html<!-- ========== Start Section ========== -->
+ Logo & navigation bar
+
+ Upcoming Events list (name, date, description, register link)
+
+ Past Events gallery (photos & highlights)
+
+ Workshops & Hackathons section
+
+ Events gallery animation/slideshow
+
+ Footer (social links & copyright)
+ <!-- ========== End Section ========== -->
+
+
+
+
+

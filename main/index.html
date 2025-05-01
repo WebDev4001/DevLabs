@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevLabs | Home</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../menu/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- <link rel="stylesheet" href="style-testimonials.css"> -->
+
+  <style>
+
+    
+    /* Loader Animation */
+    .loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .loader-balls {
+      display: flex;
+      gap: 20px;
+    }
+
+    .ball {
+      width: 20px;
+      height: 20px;
+      background: #e5f403;
+      border-radius: 50%;
+      animation: bounce 0.5s ease-in-out infinite;
+    }
+
+    .ball:nth-child(1) { animation-delay: 0.1s; }
+    .ball:nth-child(2) { animation-delay: 0.2s; }
+    .ball:nth-child(3) { animation-delay: 0.3s; }
+    .ball:nth-child(4) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .main-content {
+      display: none;
+    }
+
+    body {
+      background: #000000;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+    }
+    header {
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+    section {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+    .bg-gray-900 {
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+    footer {
+      background-color: #000000;
+    }
+    a {
+      color: #e5f403;
+    }
+    a:hover {
+      color: #cddc39;
+    }
+    .bg-yellow-300 {
+      background-color: #e5f403;
+      color: #000000;
+    }
+    .bg-yellow-300:hover {
+      background-color: #cddc39;
+    }
+    /* Frame overlay styles */
+    .frame-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .frame-overlay {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background-color: #000000;
+      pointer-events: none;
+      z-index: 1;
+      margin: 2px;
+    }
+    /* Mobile view and small screens */
+    @media (max-width: 913px) {
+      .frame-overlay {
+        width: 180px;
+        height: 55px;  /* Increased from 50px to 55px */
+        bottom: -5px;
+        right: -5px;
+      }
+    }
+    /* Desktop view */
+    @media (min-width: 914px) {
+      .frame-overlay {
+        width: calc(180 * (1669/991) * 1px);
+        height: calc(55 * (1669/991) * 1px);  /* Increased from 50px to 55px */
+        bottom: -5px;
+        right: -5px;
+      }
+    }
+    /* Reuse menu styles from index.html */
+    .menu { position: fixed; top: 20px; right: 20px; left: auto; bottom: auto; width: 60px; height: 60px; margin: 0; z-index: 100; }
+    .menu-item, .menu-open-button { width: 60px; height: 60px; line-height: 60px; margin-left: -30px; font-size: 20px; }
+    .menu-open:checked ~ .menu-item:nth-child(3) { transform: translate3d(-75px, 0px, 0) rotate(0deg); transition-duration: 180ms; }
+    .menu-open:checked ~ .menu-item:nth-child(4) { transform: translate3d(-55px, 55px, 0) rotate(0deg); transition-duration: 280ms; }
+    .menu-open:checked ~ .menu-item:nth-child(5) { transform: translate3d(0px, 75px, 0) rotate(0deg); transition-duration: 380ms; }
+    .menu-open:checked ~ .menu-item:nth-child(n+6) { transform: scale(0.4); }
+
+    section { padding: 6rem 1rem 2rem 1rem; } /* Add top padding to clear menu */
+        .content-section { background-color: rgba(255, 255, 255, 0.05); padding: 2rem; border-radius: 8px; margin-bottom: 2rem; }
+        h2 { font-size: 2.5rem; font-weight: 600; margin-bottom: 1.5rem; text-align: center; }
+        h3 { font-size: 1.8rem; font-weight: 600; margin-bottom: 1rem; margin-top: 2rem; color: #e5f403; /* Accent color */}
+        p { line-height: 1.7; margin-bottom: 1rem; }
+        ul { list-style: disc; margin-left: 2rem; margin-bottom: 1rem; }
+        strong { color: #e5f403; }
+        .founder-card { background-color: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 8px; text-align: center; }
+        .founder-card img { max-width: 150px; border-radius: 50%; margin: 0 auto 1rem auto; border: 3px solid #e5f403; }
+        .contact-form input, .contact-form textarea { background-color: rgba(255,255,255,0.1); border: 1px solid #555; padding: 0.8rem; border-radius: 4px; width: 100%; margin-bottom: 1rem; color: white; }
+        .contact-form button { background-color: #e5f403; color: black; padding: 0.8rem 1.5rem; border: none; border-radius: 4px; font-weight: 600; cursor: pointer; transition: background-color 0.3s ease; }
+        .contact-form button:hover { background-color: #cddc39; }
+        footer { background-color: rgba(0, 0, 0, 0.7); text-align: center; padding: 1.5rem; margin-top: 2rem; }
+  </style>
+</head>
+<body class="text-white">
+
+
+  <!-- background video -->
+  <video autoplay muted loop style="position: fixed; z-index: -1; top: 0; left: 0; width: 100%; height: 100%;">
+    <source src="Projects\DevLabs\ASSESTS\bg.mp4" type="video/mp4">
+  </video>
+  
+
+<!-- logo -->
+<a style="width: 100px; height: auto; position: fixed; border-color: rgb(255, 255, 255); border-width: 2px; border-radius: 5%;" class="absolute top-4 left-4 w-16 h-16 z-10" href="index.html">
+  <img src="Projects\DevLabs\ASSESTS\logob.png" alt="DevLabs Logo">
+</a>
+
+<!-- Loader -->
+  <div class="loader" id="loader">
+    <div class="loader-balls">
+      <div class="ball"></div>
+      <div class="ball"></div>
+      <div class="ball"></div>
+      <div class="ball"></div>
+    </div>
+  </div>
+
+
+
+  <!-- Main Content -->
+  <div class="main-content" id="mainContent">
+
+
+    <!-- Menu -->
+    <nav class="menu">
+      <input type="checkbox" href="#" class="menu-open" name="menu-open" id="menu-open">
+      <label class="menu-open-button" for="menu-open">
+       <span class="lines line-1"></span>
+       <span class="lines line-2"></span>
+       <span class="lines line-3"></span>
+      </label>
+      <a href="index.html" class="menu-item blue"> <i class="fa fa-home"></i></a>
+      <a href="about.html" class="menu-item green"> <i class="fa fa-info-circle"></i></a>
+      <a href="events.html" class="menu-item red"> <i class="fa fa-calendar"></i></a>
+      <!-- <a href="#" class="menu-item purple" style="pointer-events: none;"></a>
+      <a href="#" class="menu-item orange" style="pointer-events: none;"></a>
+      <a href="#" class="menu-item lightblue" style="pointer-events: none;"></a> -->
+   </nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="h-screen flex flex-col justify-center items-center text-center pt-16">
+    <div class="absolute top-0 left-0 w-full h-full -z-10">
+      <div class="frame-container">
+        <iframe src='https://my.spline.design/boxeshover-6h8Kf8hSpuUHcAm6gnDMeAO0/' frameborder='0' width='100%' height='100%'></iframe>
+        <div class="frame-overlay"></div>
+      </div>
+    </div>
+    <h2 class="text-4xl font-bold mb-4">Empowering Innovators, Building the Future</h2>
+    <p class="mb-6 max-w-xl">Join DevLabs – a community where creators and coders collaborate on groundbreaking tech across Web, Mobile, AI/ML, and IoT.</p>
+    <a href="#about" class="bg-yellow-300 text-black font-semibold py-2 px-6 rounded-full hover:bg-yellow-400">Join Us</a>
+  </section>
+
+
+  <!-- Join us about -->
+<div class="join-us-about" style="margin: auto; text-align: center;align-items: center;">
+  <h2 class="text-4xl font-bold mb-4">Join Us</h2>
+  <p class="mb-6 max-w-xl" style="margin: auto;">Join DevLabs – a community where creators and coders collaborate on groundbreaking tech across Web, Mobile, AI/ML, and IoT.</p>
+  
+  <!-- Join Us -->
+  <a href="" target="_blank" rel="noopener noreferrer" style="margin: auto;">
+    <button style="margin: auto;">
+      J O I N &nbsp; U S
+      <div id="clip">
+          <div id="leftTop" class="corner"></div>
+          <div id="rightBottom" class="corner"></div>
+          <div id="rightTop" class="corner"></div>
+          <div id="leftBottom" class="corner"></div>
+      </div>
+      <span id="rightArrow" class="arrow"></span>
+      <span id="leftArrow" class="arrow"></span>
+  </button>
+  </a>
+
+</div>
+
+<br><br><br><br>
+
+  <!-- About P3 -->
+<a href="https://wa.me/917307505671?text=HI%20,Tell%20me%20about%20DEV%20LABS" target="_blank" rel="noopener noreferrer">
+  <div class="card" s >
+    <p class="card-title" >About DevLabs</p>
+    <p class="card-des" >
+      DevLabs is a thriving tech community focused on fostering innovation & collaborative learning. We explore diverse domains including Web
+      <br>
+      Development, Mobile Apps, ML & AI, and Drone/IoT System.
+    </p>
+    <p class="card-text">
+      <span>View More</span>
+      <svg class="arrow-icon" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"></path>
+      </svg>
+    </p>
+  </div>
+</a>
+  
+  <!-- Quick Highlights -->
+  <section id="highlights" class="p-10 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+    <div class="bg-gray-900 p-6 rounded-xl shadow-lg">
+      <h4 class="text-xl font-semibold">Recent Events</h4>
+      <p>Explore our latest hackathons and workshops.</p>
+    </div>
+    <div class="bg-gray-900 p-6 rounded-xl shadow-lg">
+      <h4 class="text-xl font-semibold">Community Stats</h4>
+      <p>500+ Members, 50+ Projects, 10+ Collaborations</p>
+    </div>
+    <div class="bg-gray-900 p-6 rounded-xl shadow-lg">
+      <h4 class="text-xl font-semibold">Testimonials</h4>
+      <p>See what members say about DevLabs.</p>
+    </div>
+  </section>
+
+<!-- Testimonials Section -->
+<div id="testimonials" style="width:100%; max-width:1200px; margin:auto;">
+  <iframe src="Testimonials/index.html" frameborder="0" width="100%" height="500px" style="display:block;"></iframe>
+</div>
+
+
+  <!-- Footer -->
+  <footer id="contact" class="bg-black bg-opacity-70 text-center p-6 mt-10">
+    <div class="mb-4">
+      <a href="#" class="mx-2">LinkedIn</a> |
+      <a href="#" class="mx-2">GitHub</a> |
+      <a href="#" class="mx-2">Twitter</a>
+    </div>
+    <p>&copy; 2025 DevLabs. All rights reserved.</p>
+  </footer>
+
+  <!-- <script src="scipt.jsx"></script> -->
+  <!-- Spline Viewer Script -->
+  <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
+
+
+  <script>
+    // Hide loader and show main content after 1 second
+    setTimeout(() => {
+      document.getElementById('loader').style.display = 'none';
+      document.getElementById('mainContent').style.display = 'block';
+    }, 1000);
+  </script>
+</body>
+</html>

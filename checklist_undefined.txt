@@ -1,0 +1,9 @@
+photos of events
+photos of senior members
+photos of testimonials 
+
+
+
+animations of:
+- landing page
+- bakcground robot (spline)

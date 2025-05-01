@@ -1,0 +1,447 @@
+:root {
+    --animation-duration-base: 55s; /* Base speed */
+    --animation-duration-side: calc(var(--animation-duration-base) / 0.75); /* Slower for sides */
+    --animation-duration-middle: calc(var(--animation-duration-base) / 1.25); /* Faster for middle */
+    --min-box-height: 120px; /* Min box height */
+    --max-box-height: 180px; /* Max box height */
+    --box-margin: 15px;
+    --column-gap: 25px; /* Increased spacing */
+    --hover-scale: 1.05;
+    --push-amount: 30px;
+    --column-transition-speed: 0.5s;
+    --image-path: 'bg-compress6edf.jpg'; /* Relative path */
+
+    /* Column widths */
+    --column-width: 30%;
+    
+    /* Mobile breakpoints */
+    --mobile-breakpoint: 768px;
+    /* Scaled Sizes (1.25x) */
+    --min-box-height: 150px; /* 120 * 1.25 */
+    --max-box-height: 225px; /* 180 * 1.25 */
+    --icon-size: 20px; /* 16 * 1.25 */
+    --box-padding: 18px; /* Increased padding */
+
+    /* Light Mode Colors */
+    --bg-color: #f0f2f5;
+    --box-bg-color: #ffffff;
+    --text-color: #586069;
+    --author-color: #24292e;
+    --border-color: #e1e4e8;
+    --shadow-color: rgba(0,0,0,0.05);
+    --box-radius: 12px; /* Increased radius */
+     --hover-text-color: #ffffff; /* White text on hover */
+     --hover-author-color: #f0f0f0;
+     --hover-overlay-color: rgba(0, 0, 0, 0.6); /* Overlay for text readability */
+}
+
+body {
+    margin: 0;
+    padding: 30px;
+    font-family: sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    overflow: hidden; /* Prevent all scroll */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: calc(100vh - 60px);
+    position: relative;
+    cursor: default;
+}
+
+.testimonials-container {
+    display: flex;
+    gap: var(--column-gap);
+    width: 100%;
+    max-width: 1800px;
+    height: 85vh; /* Adjust height to clip bottom ~15% */
+    overflow: hidden;
+    position: relative;
+    perspective: 1000px;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 85%, transparent 100%); /* Adjust fade */
+    mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 85%, transparent 100%);
+}
+
+.column {
+    /* flex: 1; Original */
+    flex: 0 1 18%; /* Allow shrinking, aim for narrower base width */
+    display: flex;
+    flex-direction: column;
+     /* Height needs careful calculation or acceptance of minor jump with random heights */
+     /* Setting a very large fixed height ensures content overflows for animation */
+    height: 3000px; /* Large fixed height for overflow */
+    will-change: transform;
+    animation-timing-function: linear; /* Changed to linear for constant speed */
+    animation-iteration-count: infinite;
+    min-width: 150px; /* Prevent columns becoming too narrow */
+    transition: transform var(--column-transition-speed) ease-in-out, opacity 0.5s ease-in-out; /* Add opacity transition */
+    position: relative; /* Needed for absolute positioning of boxes if we went that route */
+    animation-duration: var(--animation-duration-base); /* Default speed */
+    animation-play-state: running !important; /* Always running by default */
+}
+
+/* Side column styles */
+.column:first-child,
+.column:last-child {
+    opacity: 0.85; /* Slightly faded */
+    animation-duration: var(--animation-duration-side); /* Slower speed */
+    animation-play-state: running !important;
+}
+
+/* Middle column speed */
+.column:nth-child(3) {
+    animation-duration: var(--animation-duration-middle); /* Faster speed */
+}
+
+/* Column Push Aside */
+.column.is-pushed-left {
+    transform: translateX(calc(-1 * var(--push-amount)));
+}
+.column.is-pushed-right {
+     transform: translateX(var(--push-amount));
+}
+
+/* Alternating animations */
+.column:nth-child(odd) {
+    animation-name: moveUp;
+    animation-duration: var(--animation-duration-base);
+}
+
+.column:nth-child(even) {
+    animation-name: moveDown;
+    animation-duration: var(--animation-duration-base);
+}
+
+.testimonial-box {
+    flex-shrink: 0;
+    min-height: var(--min-box-height);
+    max-height: var(--max-box-height);
+    width: 100%;
+    background-color: var(--box-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--box-radius);
+    padding: var(--box-padding);
+    margin-bottom: var(--box-margin);
+    box-shadow: 0 4px 8px var(--shadow-color);
+    transition: all 0.4s ease;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    box-sizing: border-box;
+    transform-origin: center center;
+    z-index: 1;
+}
+
+.testimonial-box p,
+.testimonial-box strong {
+    position: relative; /* Ensure text is above potential overlay */
+    z-index: 2;
+    transition: color 0.4s ease;
+}
+
+.testimonial-box p {
+    margin: 0;
+    font-size: 0.9em;
+    color: var(--text-color);
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    transition: all 0.4s ease;
+}
+ .testimonial-box strong {
+     display: block;
+     margin-top: 10px;
+     font-size: 0.8em;
+     color: var(--author-color);
+     text-align: right;
+     display: flex; /* Align icon and text */
+     align-items: center; /* Vertically center icon and text */
+     justify-content: flex-end; /* Keep content to the right */
+ }
+
+.author-icon {
+    width: var(--icon-size);
+    height: var(--icon-size);
+    margin-right: 5px;
+    border-radius: 50%; /* Make icons circular */
+    object-fit: cover; /* Ensure image covers the circle */
+}
+
+/* Hover overlay for text readability */
+.testimonial-box::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--hover-overlay-color);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+    border-radius: inherit;
+}
+
+/* Hover effects triggered by JS */
+.column.pause-animation {
+    animation-play-state: paused !important;
+}
+
+.testimonial-box.is-hovered {
+    transform: scale(var(--hover-scale));
+    z-index: 100;
+    border-color: transparent;
+    background-image: url("bg-compress6edf.jpg");
+    max-height: none; /* Remove max-height constraint */
+    position: relative;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+.testimonial-box.is-hovered::after { /* Show overlay on hover */
+     opacity: 1;
+}
+.testimonial-box.is-hovered p {
+     -webkit-line-clamp: unset; /* Remove line clamp on hover */
+     color: var(--hover-text-color);
+}
+ .testimonial-box.is-hovered strong {
+     color: var(--hover-author-color);
+ }
+
+/* Keyframes for movement (using half the large fixed height now) */
+@keyframes moveUp {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(2px, -375px); } /* Adjust pixel values based on fixed height */
+    50% { transform: translate(0, -750px); }
+    75% { transform: translate(-2px, -1125px); }
+    100% { transform: translate(0, -1500px); }
+}
+
+@keyframes moveDown {
+     0% { transform: translate(0, -1500px); }
+    25% { transform: translate(-2px, -1125px); }
+    50% { transform: translate(0, -750px); }
+    75% { transform: translate(2px, -375px); }
+    100% { transform: translate(0, 0); }
+}
+
+/* Keyframes for rainbow border animation - REMOVED */
+
+/* Dark Mode Styles */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #0a0a0a; /* Even Darker background */
+        --box-bg-color: #181818; /* Even Darker box */
+        --text-color: #bdbdbd;
+        --author-color: #e0e0e0;
+        --border-color: #282828; /* Darker border */
+        --shadow-color: rgba(0,0,0,0.4);
+        --hover-text-color: #ffffff;
+        --hover-author-color: #f0f0f0;
+        --hover-overlay-color: rgba(0, 0, 0, 0.65); /* Darker overlay for contrast */
+    }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    :root {
+        --column-width: 100%;
+        --min-box-height: 120px;
+        --max-box-height: 150px;
+        --box-margin: 0;
+        --column-gap: 20px;
+        --hover-scale: 1;
+        --push-amount: 0;
+        --mobile-card-width: 85vw;
+        --expanded-width: 60%;
+        --expanded-height: calc(60vh - 40px);
+    }
+
+    body {
+        padding: 0;
+        overflow-y: auto;
+        min-height: 100vh;
+        background: var(--bg-color);
+    }
+
+    .testimonials-container {
+        flex-direction: column;
+        height: 100vh;
+        width: 100vw;
+        gap: 30px;
+        padding: 15px 0;
+        overflow: visible;
+        mask-image: none;
+        -webkit-mask-image: none;
+    }
+
+    .column {
+        flex: 0 0 180px;
+        height: 180px;
+        min-height: auto;
+        margin: 0;
+        width: 100vw;
+        flex-direction: row;
+        overflow: hidden;
+        padding: 0;
+        transform: none !important;
+        display: flex;
+        align-items: center;
+    }
+
+    .testimonial-box {
+        flex: 0 0 var(--mobile-card-width);
+        height: 160px !important;
+        margin: 0;
+        transform: translateX(calc((100vw - var(--mobile-card-width)) / 2));
+        transition: all 0.3s ease;
+        background: var(--box-bg-color);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 15px;
+        aspect-ratio: 16/9;
+    }
+
+    /* Mobile animations */
+    .column:nth-child(odd) {
+        animation: mobileSlideLeft 25s linear infinite;
+    }
+
+    .column:nth-child(even) {
+        animation: mobileSlideRight 25s linear infinite;
+    }
+
+    @keyframes mobileSlideLeft {
+        0% { transform: translateX(calc(var(--mobile-card-width) * 1.5)); }
+        100% { transform: translateX(calc(var(--mobile-card-width) * -1.5)); }
+    }
+
+    @keyframes mobileSlideRight {
+        0% { transform: translateX(calc(var(--mobile-card-width) * -1.5)); }
+        100% { transform: translateX(calc(var(--mobile-card-width) * 1.5)); }
+    }
+
+    /* Mobile hover/touch effects */
+    .testimonial-box.is-hovered {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        width: var(--expanded-width);
+        height: var(--expanded-height) !important;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+        padding: 20px;
+        margin: 0;
+        overflow-y: auto;
+        background-color: var(--box-bg-color);
+        box-shadow: 0 0 40px rgba(0,0,0,0.5);
+        border-radius: var(--box-radius);
+        display: flex;
+        flex-direction: column;
+        aspect-ratio: auto;
+        min-width: 280px;
+        max-width: 600px;
+    }
+
+    .testimonial-box.is-hovered p {
+        font-size: 1.1em;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        color: var(--text-color);
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    .testimonial-box.is-hovered strong {
+        margin-top: auto;
+        padding-top: 15px;
+        font-size: 1em;
+        border-top: 1px solid var(--border-color);
+    }
+
+    /* Overlay for expanded card */
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.8);
+        z-index: 999;
+        backdrop-filter: blur(5px);
+    }
+
+    .overlay.active {
+        display: block;
+    }
+
+    /* Adjust text for mobile */
+    .testimonial-box p {
+        font-size: 0.95em;
+        line-height: 1.4;
+        margin-bottom: 10px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        flex: 1;
+    }
+
+    .testimonial-box strong {
+        margin-top: auto;
+    }
+
+    /* Add close button for expanded view */
+    .close-button {
+        display: none;
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        width: 40px;
+        height: 40px;
+        background: rgba(0,0,0,0.3);
+        border-radius: 50%;
+        z-index: 1001;
+        cursor: pointer;
+        border: none;
+        color: white;
+        font-size: 24px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .close-button:active {
+        background: rgba(0,0,0,0.5);
+    }
+
+    .testimonial-box.is-hovered + .close-button {
+        display: flex;
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --mobile-card-width: 90vw;
+        --expanded-width: 90%;
+        --expanded-height: calc(70vh - 40px);
+    }
+
+    .testimonial-box {
+        padding: 12px;
+    }
+
+    .testimonial-box.is-hovered {
+        min-width: 250px;
+        padding: 15px;
+    }
+
+    .close-button {
+        top: 10px;
+        right: 10px;
+    }
+}
