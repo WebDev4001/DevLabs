@@ -46,7 +46,7 @@
             margin: 0;
             padding: 30px;
             font-family: sans-serif;
-            background-color: var(--bg-color);
+            background: transparent;
             color: var(--text-color);
             overflow: hidden; /* Prevent all scroll */
             display: flex;
@@ -713,12 +713,6 @@
         const overlay = document.createElement('div');
         overlay.classList.add('overlay');
         document.body.appendChild(overlay);
-
-        // Add close button
-        const closeButton = document.createElement('button');
-        closeButton.classList.add('close-button');
-        closeButton.innerHTML = '×';
-        document.body.appendChild(closeButton);
 
         // Update touch handlers
         let touchStartX = 0;

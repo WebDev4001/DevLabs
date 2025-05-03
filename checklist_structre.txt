@@ -1,4 +1,4 @@
-DevLabs Website Structure
+    DevLabs Website Structure
 
 
 1. Home Page (Landing Page)
@@ -61,54 +61,6 @@ Workshops & Hackathons:
 ● List of tech-related events organized by DevLabs
 Additional Features
 Gallery Section ( Images from events, projects, and meetups)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -184,6 +136,12 @@ events.html<!-- ========== Start Section ========== -->
 
  Footer (social links & copyright)
  <!-- ========== End Section ========== -->
+
+
+
+
+
+
 
 
 
