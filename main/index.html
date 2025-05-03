@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="../menu/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- <link rel="stylesheet" href="style-testimonials.css"> -->
-   <link rel="stylesheet" href="Projects\DevLabs\main\style-back-to-top.css">
+   <!-- <link rel="stylesheet" href="Projects\DevLabs\main\style-back-to-top.css"> -->
    <link rel="icon" type="image/x-icon" href="../ASSESTS/logo.png">
 
   <style>
@@ -212,13 +212,13 @@
 </section>
 
 
-  <button class="button-btt">
+  <!-- <button class="button-btt">
     <svg viewBox="0 0 384 512" class="svgIcon">
       <path
         d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"
       ></path>
     </svg>
-  </button>
+  </button> -->
   
 
   <!-- Join us about -->
@@ -266,23 +266,91 @@
   <!-- Quick Highlights -->
   <section id="highlights" class="p-10 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
     <div class="bg-gray-900 p-6 rounded-xl shadow-lg">
-      <h4 class="text-xl font-semibold">Recent Events</h4>
-      <p>Explore our latest hackathons and workshops.</p>
-    </div>
-    <div class="bg-gray-900 p-6 rounded-xl shadow-lg">
       <h4 class="text-xl font-semibold">Community Stats</h4>
       <p>500+ Members, 50+ Projects, 10+ Collaborations</p>
     </div>
-    <div class="bg-gray-900 p-6 rounded-xl shadow-lg">
-      <h4 class="text-xl font-semibold">Testimonials</h4>
-      <p>See what members say about DevLabs.</p>
-    </div>
   </section>
 
+<!-- EVENTS  -->
+<section id="events" class="p-10 text-center">
+  <h1 class="text-4xl font-semibold mb-8">Our Events</h1>
+
+  <!-- Upcoming Events -->
+  <div class="mb-12">
+    <h2 class="text-3xl font-semibold mb-6">Upcoming Events</h2>
+    
+    <!-- Innovation Sprint Q3 -->
+    <div class="flex flex-col md:flex-row items-center mb-8">
+      <div class="md:w-1/2 p-4 text-left">
+        <h3 class="text-2xl font-semibold mb-2">Innovation Sprint Q3</h3>
+        <p class="mb-2">Date: October 15–17, 2025</p>
+        <!-- ONLY this paragraph animates -->
+        <p id="scramble1" class="encrypted-text-body">
+          Join our quarterly 48‑hour sprint where teams prototype solutions for real clients. Focus areas: Web & AI.
+        </p>
+      </div>
+      <div class="md:w-1/2 p-4">
+        <img src="../ASSESTS/4.JPG" alt="Innovation Sprint Q3" class="w-full h-auto rounded-lg shadow-lg">
+      </div>
+    </div>
+
+    <!-- Cloud Fundamentals Workshop -->
+    <div class="flex flex-col md:flex-row items-center mb-8">
+      <div class="md:w-1/2 p-4 text-left">
+        <h3 class="text-2xl font-semibold mb-2">Cloud Fundamentals Workshop</h3>
+        <p class="mb-2">Date: November 5, 2025</p>
+        <p id="scramble2" class="encrypted-text-body">
+          Learn the basics of cloud computing with hands‑on labs using AWS and Azure.
+        </p>
+      </div>
+      <div class="md:w-1/2 p-4">
+        <img src="../ASSESTS/1.JPG" alt="Cloud Workshop" class="w-full h-auto rounded-lg shadow-lg">
+      </div>
+    </div>
+  </div>
+
+  <!-- Past Events Highlights -->
+  <div class="mb-12">
+    <h2 class="text-3xl font-semibold mb-6">Past Events Highlights</h2>
+    
+    <!-- Native Nexus -->
+    <div class="flex flex-col md:flex-row items-center mb-8">
+      <div class="md:w-1/2 p-4 text-left">
+        <h3 class="text-2xl font-semibold mb-2">Signature Workshop: Native Nexus</h3>
+        <p class="mb-2">March 2025 @ MMMUT, Gorakhpur</p>
+        <p id="scramble3" class="encrypted-text-body">
+          Over six days, 100 developers built an AI‑powered expense app with React Native, Node.js, MongoDB & Google Gemini.
+        </p>
+      </div>
+      <div class="md:w-1/2 p-4">
+        <img src="../ASSESTS/2.JPG" alt="Native Nexus" class="w-full h-auto rounded-lg shadow-lg">
+      </div>
+    </div>
+
+    <!-- Summer Code Jam 2024 -->
+    <div class="flex flex-col md:flex-row items-center mb-8">
+      <div class="md:w-1/2 p-4 text-left">
+        <h3 class="text-2xl font-semibold mb-2">Summer Code Jam 2024</h3>
+        <p class="mb-2">July 2024</p>
+        <p id="scramble4" class="encrypted-text-body">
+          A week‑long coding challenge on sustainable tech. Teams competed for prizes and internships.
+        </p>
+      </div>
+      <div class="md:w-1/2 p-4">
+        <img src="../ASSESTS/3.JPG" alt="Summer Code Jam 2024" class="w-full h-auto rounded-lg shadow-lg">
+      </div>
+    </div>
+  </div>
+</section>
+
+
+ 
 <!-- Testimonials Section -->
-<div id="testimonials" style="width:100%; max-width:1500px; margin:auto; max-height: max-content;">
+<div id="testimonials" style="width:100%; max-width:auto; margin:auto; max-height: max-content;">
   <iframe src="../Testimonials/index.html" frameborder="0" width="100%" height="500px" style="display:block;"></iframe>
 </div>
+
+
 
 
   <!-- Footer -->
@@ -298,7 +366,7 @@
   <!-- <script src="scipt.jsx"></script> -->
   <!-- Spline Viewer Script -->
   <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
-
+ <script src="script-para.js"></script>
 
   <script>
     // Hide loader and show main content after 1 second

@@ -273,13 +273,22 @@ button:hover #clip {
 }
 
 
-/* video of front  */
-/* .overlay-heading {
-  border: none;
-  position: absolute;
-  bottom: 10px; /* distance from bottom */
-  /* left: 10px;   /* aligns text to left 
-  background: rgba(255, 255, 255, 0.6);  optional for readability 
-  padding: 5px;
-  font-size: 18px;
-} */ 
+/* Encrypted Text */
+.encrypted-text-body {
+  font-size: 1rem;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  padding: 10px 20px;
+  border: 2px solid white;
+  border-radius: 8px;
+  background-color: transparent;
+  transition: background-color 0.4s;
+}
+.encrypted-text-body:hover {
+  background-color: rgba(255, 255, 255, 0.01);
+}
+
+#events * {
+  background-color: transparent !important;
+}
